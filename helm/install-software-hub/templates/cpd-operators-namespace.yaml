@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: {{.Values.global.instanceNamespace }}
+    kubernetes.io/metadata.name: {{.Values.global.instanceNamespace }}
+  name: {{.Values.global.instanceNamespace }}
