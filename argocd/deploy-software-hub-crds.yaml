@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: deploy-software-hub-application-1
+  name: deploy-software-hub-crds-application
   namespace: openshift-gitops
 spec:
   project: default
@@ -10,11 +10,17 @@ spec:
     repoURL: https://github.com/Aditt-197/lab3991.git
     targetRevision: main
     path: helm/install-software-hub-crds
+    helm:
+      releaseName: software-hub-crds
 
   destination:
     server: https://kubernetes.default.svc
+    namespace: cpd
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
