@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    name: {{.Values.global.operatorNamespace }}
-    kubernetes.io/metadata.name: {{.Values.global.operatorNamespace }}
-  name: {{.Values.global.operatorNamespace }}
