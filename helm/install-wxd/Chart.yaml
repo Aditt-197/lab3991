@@ -22,3 +22,22 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
+
+
+dependencies:
+  # IBM WATSONX CHARTS
+  - name: analyticsengine
+    version: 5.3.1+patch11.adobe.hf2.20260813.163801.2663
+    repository: https://raw.githubusercontent.com/IBM/charts/master/repo/ibm-helm
+  - name: datarefinery
+    version: 12.1.11+20260724.003118.399
+    repository: https://raw.githubusercontent.com/IBM/charts/master/repo/ibm-helm
+  - name: watsonx-data
+    version: 2.3.11+patch11.adobe.hf1.20260806.143318.311
+    repository: https://raw.githubusercontent.com/IBM/charts/master/repo/ibm-helm
+  - name: ws
+    version: 12.1.11+20260731.154137.18
+    repository: https://raw.githubusercontent.com/IBM/charts/master/repo/ibm-helm
+  - name: ws-pipelines
+    version: 12.1.11+20260724.125851.8
+    repository: https://raw.githubusercontent.com/IBM/charts/master/repo/ibm-helm
