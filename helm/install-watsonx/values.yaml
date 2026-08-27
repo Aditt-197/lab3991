@@ -24,6 +24,11 @@ analyticsengine:
       pullWxdImagesOnly: true
       informerEnabled: false
     sparkRuntimeConfig:
+      maxDriverCpuCores: 5
+      maxExecutorCpuCores: 5
+      maxDriverMemory: "50g"
+      maxExecutorMemory: "50g"
+      maxNumWorkers: 50
     controlPlaneResourceConfig:
       resources:
         limits:
