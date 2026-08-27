@@ -40,17 +40,17 @@ analyticsengine:
           ephemeral-storage: 650Mi
           memory: 12Gi
     SparkMetaStoreEdb:
-      minPoolSize: 20
-      maxPoolSize: 50
+      minPoolSize: 5
+      maxPoolSize: 10
       resources:
         requests:
-          cpu: '2'
-          ephemeral-storage: 200Mi
-          memory: 4Gi
+          cpu: '500m'
+          ephemeral-storage: 100Mi
+          memory: 1Gi
         limits:
-          cpu: '4'
-          ephemeral-storage: 700Mi
-          memory: 8Gi
+          cpu: '1'
+          ephemeral-storage: 300Mi
+          memory: 2Gi
     deployerAgentConfig:
       contextTimeout: 50
       sleepInterval: 2000
