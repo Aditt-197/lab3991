@@ -2,7 +2,7 @@ global:
   operatorNamespace: cpd-operators
   instanceNamespace: cpd
   blockStorageClass: ocs-storagecluster-ceph-rbd
-  fileStorageClass: ocs-storagecluster-cephfs-selinux-relabel
+  fileStorageClass: ocs-storagecluster-cephfs
   imagePullPrefix: icr.io
   licenseType: Enterprise
   licenseAccept: true
