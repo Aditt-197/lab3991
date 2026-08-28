@@ -27,12 +27,6 @@ global:
   installConfigImageName: cpopen/cpd/olm-utils-v4
   installConfigImageTag: 5.3.1
 
-ibm_entitlement_key:
-  secretKey: ibm_entitlement_key
-  remoteRef:
-    key: CT-DX-Shared/watsonx
-    property: ibm_entitlement_key
-
 cpd-platform:
   Chart:
     name: ibm-software-hub
@@ -63,7 +57,9 @@ zen:
 
 ccs:
   ccs:
+    createCcsCr: "true"
     scaleConfig: small
+    crVersion: 12.1.11
 
 opencontent-opensearch:
   opencontentOpensearch:

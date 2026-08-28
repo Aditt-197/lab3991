@@ -9,11 +9,6 @@ global:
 
 imagePullSecrets: []
 
-ibm_entitlement_key:
-  secretKey: ibm_entitlement_key
-  remoteRef:
-    key: CT-DX-Shared/watsonx
-    property: ibm_entitlement_key
 
 analyticsengine:
   analyticsengine:
