@@ -30,6 +30,7 @@ analyticsengine:
       maxExecutorMemory: "50g"
       maxNumWorkers: 50
     controlPlaneResourceConfig:
+      replicas: 1
       resources:
         limits:
           cpu: '2'
@@ -40,6 +41,8 @@ analyticsengine:
           ephemeral-storage: 256Mi
           memory: 2Gi
     SparkMetaStoreEdb:
+      instances: 1
+      max_connections: 20
       minPoolSize: 5
       maxPoolSize: 10
       resources:
