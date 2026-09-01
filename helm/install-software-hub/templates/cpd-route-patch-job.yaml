@@ -17,7 +17,10 @@ rules:
     verbs: ["get"]
   - apiGroups: ["route.openshift.io"]
     resources: ["routes"]
-    verbs: ["get", "patch"]
+    verbs: ["get", "patch", "update"]
+  - apiGroups: ["route.openshift.io"]
+    resources: ["routes/custom-host"]
+    verbs: ["create", "update", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -28,6 +31,19 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: cpd-route-patcher
+subjects:
+  - kind: ServiceAccount
+    name: cpd-route-patcher
+    namespace: {{ .Values.global.instanceNamespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cpd-route-patcher-system-router
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:router
 subjects:
   - kind: ServiceAccount
     name: cpd-route-patcher
