@@ -1,6 +1,7 @@
 {{- if .Values.zen.zen.zenCustomRoute.route_host }}
 {{- $host := .Values.zen.zen.zenCustomRoute.route_host }}
 {{- $ns := .Values.global.instanceNamespace }}
+{{- $caCert := .Values.zen.zen.destinationCACert }}
 ---
 # Catch-all: main CPD UI via ibm-nginx
 apiVersion: route.openshift.io/v1
@@ -13,10 +14,12 @@ metadata:
 spec:
   host: {{ $host }}
   port:
-    targetPort: 443
+    targetPort: ibm-nginx-https-port
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: ibm-nginx-svc
@@ -39,6 +42,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-identity-provider
@@ -61,6 +66,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-identity-provider
@@ -83,6 +90,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-identity-provider
@@ -105,6 +114,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-identity-management
@@ -127,6 +138,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-auth-service
@@ -149,6 +162,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-auth-service
@@ -171,6 +186,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-auth-service
@@ -193,6 +210,8 @@ spec:
   tls:
     termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
+    destinationCACertificate: |
+{{ $caCert | indent 6 }}
   to:
     kind: Service
     name: platform-auth-service
