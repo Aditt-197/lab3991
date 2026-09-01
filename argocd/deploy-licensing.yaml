@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deploy-licensing-application
+  namespace: openshift-gitops
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Aditt-197/lab3991.git
+    targetRevision: main
+    path: helm/install-licensing
+    helm:
+      releaseName: licensing
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ibm-licensing
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=false

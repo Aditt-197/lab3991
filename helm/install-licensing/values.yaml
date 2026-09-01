@@ -1,0 +1,18 @@
+global:
+  licenseAccept: true
+  imagePullPrefix: icr.io
+  imagePullSecret: ibm-entitlement-key
+  operatorNamespace: ibm-licensing
+  instanceNamespace: ibm-licensing
+
+ibm-licensing-cluster-scoped:
+  ibmLicensing:
+    watchNamespace: ibm-licensing,cpd,cpd-operators
+    spec:
+      version: 4.2.20
+      apiSecretToken: ibm-licensing-token
+      datasource: datacollector
+      httpsEnable: true
+      license:
+        accept: true
+
