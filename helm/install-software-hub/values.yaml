@@ -49,11 +49,13 @@ zen:
   zen:
     host_header_check: false
     kubeVendor: custom
+    zenDefaultIngressReencrypt: false
     # Each student must set a unique route_host to avoid collisions on shared cluster.
     # Convention: <instanceNamespace>.apps.<cluster-domain>
     # e.g. cpd-student1.apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
     zenCustomRoute:
       route_host: cpd.apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
+      route_reencrypt: false
 
 ccs:
   ccs:

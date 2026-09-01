@@ -1,5 +1,4 @@
 {{- if .Values.zen.zen.zenCustomRoute.route_host }}
-{{- $caCert := (lookup "v1" "Secret" .Values.global.instanceNamespace "internal-tls") }}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -10,14 +9,10 @@ metadata:
 spec:
   host: {{ .Values.zen.zen.zenCustomRoute.route_host }}
   port:
-    targetPort: 8443
+    targetPort: 443
   tls:
-    termination: reencrypt
+    termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
-    {{- if $caCert }}
-    destinationCACertificate: |
-      {{ index $caCert.data "tls.crt" | b64dec | nindent 6 | trim }}
-    {{- end }}
   to:
     kind: Service
     name: ibm-nginx-svc
