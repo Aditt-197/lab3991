@@ -13,9 +13,9 @@ metadata:
 spec:
   host: {{ $host }}
   port:
-    targetPort: 8443
+    targetPort: 443
   tls:
-    termination: passthrough
+    termination: reencrypt
     insecureEdgeTerminationPolicy: Redirect
   to:
     kind: Service
