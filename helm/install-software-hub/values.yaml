@@ -57,9 +57,9 @@ zen:
 
 ccs:
   ccs:
-    createCcsCr: "true"
     scaleConfig: small
-    crVersion: 12.1.11
+    cc_home_copy_options: -ru
+    conn_home_copy_options: -ru
 
 opencontent-opensearch:
   opencontentOpensearch:
