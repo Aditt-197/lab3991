@@ -48,7 +48,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: patcher
-          image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:395a07e32f578f898e067049007f283fe4a73f59068772d86acdb1ecfd812c15
+          image: icr.io/cpopen/cpd/olm-utils-v4:5.3.1
           command:
             - /bin/bash
             - -c
