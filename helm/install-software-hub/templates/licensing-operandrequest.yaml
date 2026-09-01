@@ -1,0 +1,15 @@
+apiVersion: operator.ibm.com/v1alpha1
+kind: OperandRequest
+metadata:
+  name: licensing-service-request
+  namespace: {{ .Values.global.instanceNamespace}}
+spec:
+  requests:
+    - operands:
+        - bindings:
+            public-api-upload:
+              configmap: ibm-licensing-upload-config
+              secret: ibm-licensing-upload-token
+          name: ibm-licensing-operator
+      registry: common-service
+      registryNamespace: {{ .Values.global.instanceNamespace }}
