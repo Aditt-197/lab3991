@@ -1,13 +1,17 @@
 {{- if .Values.zen.zen.zenCustomRoute.route_host }}
+{{- $host := .Values.zen.zen.zenCustomRoute.route_host }}
+{{- $ns := .Values.global.instanceNamespace }}
+---
+# Catch-all: main CPD UI via ibm-nginx
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: cpd
-  namespace: {{ .Values.global.instanceNamespace }}
+  namespace: {{ $ns }}
   annotations:
     haproxy.router.openshift.io/timeout: 90s
 spec:
-  host: {{ .Values.zen.zen.zenCustomRoute.route_host }}
+  host: {{ $host }}
   port:
     targetPort: 8443
   tls:
@@ -16,6 +20,182 @@ spec:
   to:
     kind: Service
     name: ibm-nginx-svc
+    weight: 100
+  wildcardPolicy: None
+---
+# /idprovider/ -> platform-identity-provider:4300
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-idprovider
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /idprovider
+  port:
+    targetPort: 4300
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-identity-provider
+    weight: 100
+  wildcardPolicy: None
+---
+# /v1/auth/ -> platform-identity-provider:4300
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-v1-auth
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /v1/auth
+  port:
+    targetPort: 4300
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-identity-provider
+    weight: 100
+  wildcardPolicy: None
+---
+# /login -> platform-identity-provider:4300
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-login
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /login
+  port:
+    targetPort: 4300
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-identity-provider
+    weight: 100
+  wildcardPolicy: None
+---
+# /idmgmt/ -> platform-identity-management:4500
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-idmgmt
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /idmgmt
+  port:
+    targetPort: 4500
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-identity-management
+    weight: 100
+  wildcardPolicy: None
+---
+# /idauth/ -> platform-auth-service:9443
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-idauth
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /idauth
+  port:
+    targetPort: 9443
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-auth-service
+    weight: 100
+  wildcardPolicy: None
+---
+# /oidc -> platform-auth-service:9443
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-oidc
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /oidc
+  port:
+    targetPort: 9443
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-auth-service
+    weight: 100
+  wildcardPolicy: None
+---
+# /ibm/saml20/defaultSP -> platform-auth-service:9443
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-saml
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /ibm/saml20/defaultSP
+  port:
+    targetPort: 9443
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-auth-service
+    weight: 100
+  wildcardPolicy: None
+---
+# /ibm/api/social-login -> platform-auth-service:9443
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: cpd-social-login
+  namespace: {{ $ns }}
+  annotations:
+    haproxy.router.openshift.io/timeout: 3600s
+spec:
+  host: {{ $host }}
+  path: /ibm/api/social-login
+  port:
+    targetPort: 9443
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: Redirect
+  to:
+    kind: Service
+    name: platform-auth-service
     weight: 100
   wildcardPolicy: None
 {{- end }}
