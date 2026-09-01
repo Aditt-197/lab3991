@@ -49,34 +49,7 @@ zen:
   zen:
     host_header_check: false
     kubeVendor: custom
-    zenDefaultIngressReencrypt: false
-    # Each student must set a unique route_host to avoid collisions on shared cluster.
-    # Convention: <instanceNamespace>.apps.<cluster-domain>
-    # e.g. cpd-student1.apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
-    zenCustomRoute:
-      route_host: cpd.apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
-      route_reencrypt: false
-    # CA cert from internal-tls secret (ca.crt) - used as destinationCACertificate on reencrypt routes
-    destinationCACert: |
-      -----BEGIN CERTIFICATE-----
-      MIIDBTCCAe2gAwIBAgIRALC2eaqOFLZ1fHAfkPnAdyQwDQYJKoZIhvcNAQELBQAw
-      HDEaMBgGA1UEAxMRY3MtY2EtY2VydGlmaWNhdGUwHhcNMjYwOTAxMTUyODQyWhcN
-      MjgwODMxMTUyODQyWjAcMRowGAYDVQQDExFjcy1jYS1jZXJ0aWZpY2F0ZTCCASIw
-      DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKHYX4la5sAmFsLLYQWVRajMvekr
-      agtPkCKbWj3lGZsWWGvUAbqwv7YKKwq12pLhNXxsQguLMTF4QDdRkvzexToEn15p
-      hht/GkXrCEN9YqKTAzd0EGw7mjOWHMSGZ7piDir+hIsM7y6HNbjBh2T20YpYuiDI
-      yQY1sXzXpGN/6eLNLlXwKRV+0uQlldFzHlbs3qLQ2ycKBl5Qinwn2G4gW++JjCNk
-      SaANIPWyYXbAlxnl7qGK437oJwZc+REm2+4GcDRcKfzXe8ERG3r5vkY32nMyf8mD
-      I4sVPgx08eBnricXMyN+NCygFw42pbtiS3sa9Hi8dLv/IojlmrQXT7tl1psCAwEA
-      AaNCMEAwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYE
-      FMuIpjbQC/Lx4/59HRAOfl8GGRxUMA0GCSqGSIb3DQEBCwUAA4IBAQBpISgMMiPf
-      R89Rkvn+LT0KCg+KTthsMocM+m3OlHWrfQJYd66ZxEW43lhC1yJv1xpSQBhDS/Lx
-      BiBO3DCROx7s+zgtn/eGtO163XMPWf0UX8j9UM2puzR87eyRt+mX9GaL9pbnjAqR
-      CpLQ3G5ioaGIBDyM09WCzUe1sQhZ9CYi8tBiNs9zJkIPRowHQ+2o2clC490PWh+n
-      QFPOlE2BkA9WrFEVi8yc1Y6RRCZXbVv/a1oZS4OXMBiRPD7+aG0B3nFpx9/Y9YGG
-      vnzTiKvAnbivtHWHk/g3QaH8BR8tn0SzLd6b/5UJqiwFH1vA7EEMfnckLI16EvUp
-      P7G2PylpcC+j
-      -----END CERTIFICATE-----
+
 
 ccs:
   ccs:
