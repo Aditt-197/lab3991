@@ -47,8 +47,6 @@ ibm-common-service-operator:
 
 zen:
   zen:
-    host_header_check: false
-    kubeVendor: custom
     ingressNodeHostname: apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
 
 
