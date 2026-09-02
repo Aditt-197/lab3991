@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: deploy-software-hub-crds-application
+  name: deploy-watsonx-student1
   namespace: openshift-gitops
 spec:
   project: default
@@ -9,17 +9,19 @@ spec:
   source:
     repoURL: https://github.com/Aditt-197/lab3991.git
     targetRevision: main
-    path: helm/install-software-hub-crds
+    path: helm/install-watsonx
     helm:
-      releaseName: software-hub-crds
+      releaseName: watsonx-student1
+      valueFiles:
+        - ../../overrides/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: cpd
+    namespace: cpd-student1
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - ServerSideApply=true
+      - ServerSideApply=false

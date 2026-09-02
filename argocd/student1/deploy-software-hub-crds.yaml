@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: deploy-software-hub-crds-application
+  name: deploy-software-hub-crds-student1
   namespace: openshift-gitops
 spec:
   project: default
@@ -11,11 +11,13 @@ spec:
     targetRevision: main
     path: helm/install-software-hub-crds
     helm:
-      releaseName: software-hub-crds
+      releaseName: software-hub-crds-student1
+      valueFiles:
+        - ../../overrides/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: cpd
+    namespace: cpd-student1
 
   syncPolicy:
     automated:
