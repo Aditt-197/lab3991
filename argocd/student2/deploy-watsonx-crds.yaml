@@ -6,14 +6,17 @@ metadata:
 spec:
   project: default
 
-  source:
-    repoURL: https://github.com/Aditt-197/lab3991.git
-    targetRevision: main
-    path: helm/install-watsonx-crds
-    helm:
-      releaseName: watsonx-crds-student2
-      valueFiles:
-        - ../../overrides/student2/values.yaml
+  sources:
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      path: helm/install-watsonx-crds
+      helm:
+        releaseName: watsonx-crds-student2
+        valueFiles:
+          - $overrides/overrides/student2/values.yaml
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      ref: overrides
 
   destination:
     server: https://kubernetes.default.svc

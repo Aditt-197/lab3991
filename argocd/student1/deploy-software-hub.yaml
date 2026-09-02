@@ -6,14 +6,17 @@ metadata:
 spec:
   project: default
 
-  source:
-    repoURL: https://github.com/Aditt-197/lab3991.git
-    targetRevision: main
-    path: helm/install-software-hub
-    helm:
-      releaseName: software-hub-student1
-      valueFiles:
-        - ../../overrides/student1/values.yaml
+  sources:
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      path: helm/install-software-hub
+      helm:
+        releaseName: software-hub-student1
+        valueFiles:
+          - $overrides/overrides/student1/values.yaml
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      ref: overrides
 
   destination:
     server: https://kubernetes.default.svc
