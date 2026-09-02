@@ -47,7 +47,7 @@ ibm-common-service-operator:
 
 zen:
   zen:
-    ingressNodeHostname: apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
+    ingressNodeHostname: 
 
 
 ccs:

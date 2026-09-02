@@ -1,0 +1,32 @@
+# =============================================================================
+# Per-Student Override Values
+# =============================================================================
+# Fill in the three fields below, then deploy each chart with:
+#
+#   helm upgrade --install cpd-software-hub ./helm/install-software-hub \
+#     -f ./helm/install-software-hub/values.yaml \
+#     -f ./overrides/values.yaml
+#
+#   helm upgrade --install cpd-watsonx ./helm/install-watsonx \
+#     -f ./helm/install-watsonx/values.yaml \
+#     -f ./overrides/values.yaml
+#
+# Do NOT modify the chart values.yaml files directly.
+# =============================================================================
+
+global:
+  # OpenShift namespace where CP4D operators are installed.
+  # e.g. cpd-operators-alice
+  operatorNamespace: "cpd-operators-student1"
+
+  # OpenShift namespace where the CP4D instance lives.
+  # e.g. cpd-alice
+  instanceNamespace: "cpd-student1"
+
+zen:
+  zen:
+    # Wildcard apps hostname for your cluster ingress.
+    # Find it with: oc get ingresses.config/cluster -o jsonpath='{.spec.domain}'
+    # e.g. apps.mycluster.example.com
+    ingressNodeHostname: "apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com
+"
