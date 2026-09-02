@@ -1,0 +1,118 @@
+{{- /*
+  Job to copy ibm-licensing credentials from the shared ibm-licensing namespace
+  into this student's instance namespace.
+
+  The OperandRequest/ODLM approach fails on re-installs because ODLM skips
+  re-propagating bindings when the operator is already in "Running" state.
+  This Job runs on every ArgoCD Sync so the resources are always present,
+  regardless of how many times a student reinstalls.
+*/ -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: licensing-copy-sa
+  namespace: {{ .Values.global.instanceNamespace }}
+---
+# ClusterRole is needed so the SA can read from the shared ibm-licensing namespace.
+# Name is unique per student namespace to avoid cross-student conflicts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: licensing-copy-source-reader-{{ .Values.global.instanceNamespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: licensing-copy-source-reader-{{ .Values.global.instanceNamespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: licensing-copy-source-reader-{{ .Values.global.instanceNamespace }}
+subjects:
+  - kind: ServiceAccount
+    name: licensing-copy-sa
+    namespace: {{ .Values.global.instanceNamespace }}
+---
+# Role scoped to the student namespace for writes — least privilege.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: licensing-copy-target-writer
+  namespace: {{ .Values.global.instanceNamespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps"]
+    verbs: ["get", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: licensing-copy-target-writer
+  namespace: {{ .Values.global.instanceNamespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: licensing-copy-target-writer
+subjects:
+  - kind: ServiceAccount
+    name: licensing-copy-sa
+    namespace: {{ .Values.global.instanceNamespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: licensing-copy-job
+  namespace: {{ .Values.global.instanceNamespace }}
+  annotations:
+    # Re-run on every sync so re-installs always get fresh copies.
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      serviceAccountName: licensing-copy-sa
+      restartPolicy: OnFailure
+      containers:
+        - name: copy
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              SOURCE_NS={{ .Values.global.licensingNamespace }}
+              TARGET_NS={{ .Values.global.instanceNamespace }}
+
+              copy_secret() {
+                echo "==> Copying secret $1 from ${SOURCE_NS} -> ${TARGET_NS} ..."
+                kubectl get secret "$1" -n "${SOURCE_NS}" -o json \
+                  | jq 'del(.metadata.namespace,
+                            .metadata.resourceVersion,
+                            .metadata.uid,
+                            .metadata.creationTimestamp,
+                            .metadata.ownerReferences)
+                        | .metadata.namespace = "'${TARGET_NS}'"' \
+                  | kubectl apply -n "${TARGET_NS}" -f -
+              }
+
+              copy_configmap() {
+                echo "==> Copying configmap $1 from ${SOURCE_NS} -> ${TARGET_NS} ..."
+                kubectl get configmap "$1" -n "${SOURCE_NS}" -o json \
+                  | jq 'del(.metadata.namespace,
+                            .metadata.resourceVersion,
+                            .metadata.uid,
+                            .metadata.creationTimestamp,
+                            .metadata.ownerReferences)
+                        | .metadata.namespace = "'${TARGET_NS}'"' \
+                  | kubectl apply -n "${TARGET_NS}" -f -
+              }
+
+              copy_secret    ibm-licensing-upload-token
+              copy_configmap ibm-licensing-upload-config
+
+              echo "==> Done."
