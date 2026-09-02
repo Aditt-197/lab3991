@@ -48,3 +48,6 @@ subjects:
   - kind: ServiceAccount
     name: ibm-licensing-operator
     namespace: {{ .Values.global.licensingNamespace }}
+  - kind: ServiceAccount
+    name: ibm-licensing-operator
+    namespace: ibm-licensing
