@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deploy-software-hub-student4
+  namespace: openshift-gitops
+spec:
+  project: default
+
+  sources:
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      path: helm/install-software-hub
+      helm:
+        releaseName: software-hub-student4
+        valueFiles:
+          - $overrides/overrides/student4/values.yaml
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      ref: overrides
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cpd-student4
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=false

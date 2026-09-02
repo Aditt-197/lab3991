@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: deploy-watsonx-student5
+  namespace: openshift-gitops
+spec:
+  project: default
+
+  sources:
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      path: helm/install-watsonx
+      helm:
+        releaseName: watsonx-student5
+        valueFiles:
+          - $overrides/overrides/student5/values.yaml
+    - repoURL: https://github.com/Aditt-197/lab3991.git
+      targetRevision: main
+      ref: overrides
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cpd-student5
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=false

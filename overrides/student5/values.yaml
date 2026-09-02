@@ -1,0 +1,7 @@
+global:
+  operatorNamespace: "cpd-operators-student5"
+  instanceNamespace: "cpd-student5"
+
+zen:
+  zen:
+    ingressNodeHostname: "apps.itz-vjsic7.infra01-lb.wdc07.techzone.ibm.com"
