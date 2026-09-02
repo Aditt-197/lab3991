@@ -2,7 +2,7 @@ global:
   releaseVersion: 5.3.1
   operatorNamespace: cpd-operators
   instanceNamespace: cpd
-  licensingNamespace: cpd-licensing
+  licensingNamespace: ibm-licensing
   opaGatewayName: ibm-software-hub
   blockStorageClass: ocs-storagecluster-ceph-rbd
   fileStorageClass: ocs-storagecluster-cephfs
