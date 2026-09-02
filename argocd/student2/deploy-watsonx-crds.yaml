@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: deploy-watsonx-crds-student1
+  name: deploy-watsonx-crds-student2
   namespace: openshift-gitops
 spec:
   project: default
@@ -11,13 +11,13 @@ spec:
     targetRevision: main
     path: helm/install-watsonx-crds
     helm:
-      releaseName: watsonx-crds-student1
+      releaseName: watsonx-crds-student2
       valueFiles:
-        - ../../overrides/student1/values.yaml
+        - ../../overrides/student2/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: cpd-student1
+    namespace: cpd-student2
 
   syncPolicy:
     automated:

@@ -13,7 +13,7 @@ spec:
     helm:
       releaseName: software-hub-student1
       valueFiles:
-        - ../../overrides/values.yaml
+        - ../../overrides/student1/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
